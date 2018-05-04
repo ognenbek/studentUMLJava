@@ -56,7 +56,9 @@ public class ConceptualClassEditor extends JPanel implements ActionListener {
     public ConceptualClassEditor(ConceptualClassGR cl, CentralRepository cr) {
         classGR = cl;
         repository = cr;
-
+        
+        System.out.println("AAAAAA" + cl.getConceptualClass().getName());
+        
         setLayout(new BorderLayout());
         nameLabel = new JLabel("Class Name: ");
         nameField = new JTextField(15);
@@ -186,6 +188,7 @@ public class ConceptualClassEditor extends JPanel implements ActionListener {
     }
 
     public void addAttribute() {
+        System.out.println("add new attribute");
         AttributeEditor attributeEditor = new AttributeEditor(null, repository);
 
         if (!attributeEditor.showDialog(this, "Attribute Editor")) {    // cancel pressed

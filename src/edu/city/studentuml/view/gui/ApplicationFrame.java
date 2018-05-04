@@ -90,7 +90,7 @@ public class ApplicationFrame extends ApplicationGUI {
         checkTreeManager.getSelectionModel().clearSelection();
         messageTree.setModel(null);//
         factsTree.setModel(null);//
-        repairButton.setEnabled(false);
+        repairButton.setEnabled(true);
 
         String file = xmlFileChooser.getSelectedFile().getAbsolutePath();
 

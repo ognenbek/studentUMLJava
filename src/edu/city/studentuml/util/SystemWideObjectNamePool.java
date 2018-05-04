@@ -61,7 +61,10 @@ public class SystemWideObjectNamePool extends Observable {
     public CollectionTreeModel getMessages() {
         return messages;
     }
-
+    public String getMess(){
+        String out = consistencyChecker.getMessages(objectMap.keySet());
+        return out;
+    }
     public CollectionTreeModel getFacts() {
         return facts;
     }
@@ -122,7 +125,7 @@ public class SystemWideObjectNamePool extends Observable {
             return;
         }
 
-        messages.setName("<html><b>Messages</b></html>");
+        messages.setName("<html><b>Messages1</b></html>");
         Iterator<String> it = messageTypes.iterator();
         while (it.hasNext()) {
             String messageType = it.next();
@@ -135,7 +138,30 @@ public class SystemWideObjectNamePool extends Observable {
         setChanged();
         notifyObservers(this);
     }
+       
+    public synchronized void generateRuleSetPublic(HashMap map) {
+        messages = new CollectionTreeModel();
+        facts = new CollectionTreeModel();
 
+        if (consistencyChecker.checkState(map.keySet(), selectedRule, messageTypes, messages, facts)) {
+            selectedRule = null;
+            return;
+        }
+
+        messages.setName("<html><b>Messages1</b></html>");
+        Iterator<String> it = messageTypes.iterator();
+        while (it.hasNext()) {
+            String messageType = it.next();
+            int countMessages = messages.getChildCount(messageType);
+            messages.replace(messageType, countMessages + " " + messageType + "(s)");
+        }
+
+        facts.setName("<html><b>Facts</b>" + " [" + facts.size() + "]</html>");
+
+        setChanged();
+        notifyObservers(this);
+    }
+    
     public void reload() {
         loading();
         done();

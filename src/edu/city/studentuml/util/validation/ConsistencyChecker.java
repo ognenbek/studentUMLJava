@@ -1,5 +1,6 @@
 package edu.city.studentuml.util.validation;
 
+import edu.city.studentuml.model.graphical.ConceptualClassGR;
 import edu.city.studentuml.view.gui.CollectionTreeModel;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,7 +36,6 @@ public class ConsistencyChecker {
      *
      */
     private void loadRules(String location) {
-
         try {
             URL url = new URL(location);
             URLConnection conn = url.openConnection();
@@ -139,6 +139,53 @@ public class ConsistencyChecker {
 
         return null;
     }
+    
+    public String getMessages(Set objects)
+    {
+        rbs = new RuleBasedEngine();
+
+        Vector factsSet = new Vector();
+        Iterator it = objects.iterator();
+
+        while (it.hasNext()) {
+            Object o = it.next();
+            System.out.println("object o type: " + o.getClass());
+            rbsg.addRules(o, o.getClass(), factsSet, getFactTemplates());
+        }
+
+        for (int j = 0; j < factsSet.size(); j++) {
+            rbs.addClause((String) factsSet.get(j));
+        }
+
+        for (int j = 0; j < simplifications.size(); j++) {
+            rbs.addClause("(" + simplifications.get(j) + ")");
+        }
+
+        StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < rules.size(); i++) {
+
+            Rule r = (Rule) rules.get(i);
+            String res = "all";
+            Hashtable rez = rbs.checkRule(r.getexpression(), res.equals(r.getresult()));
+            System.out.println(rez == null);
+            if (rez != null) {
+                Iterator solutionIterator = rez.keySet().iterator();
+                while (solutionIterator.hasNext()) {
+                    String solutionName = (String) solutionIterator.next();
+                    buffer.append(r.getName());
+                    buffer.append(r.getMessage((Hashtable) rez.get(solutionName)));
+                    System.out.println("r.getName: " + r.getName());
+                    System.out.println("r.getMessage: " + r.getMessage((Hashtable) rez.get(solutionName)));
+
+                }
+
+                if (r.getSeverity().equals("failure")) {
+                    break;
+                }
+            }
+        }
+        return buffer.toString();
+    }
 
     // must not throw exceptions!!
     /*
@@ -151,12 +198,12 @@ public class ConsistencyChecker {
     public boolean checkState(Set objects, String executeRule, HashSet messageTypes, CollectionTreeModel messages, CollectionTreeModel facts) {
         //FIXME: za site go povik. so exRu *
         rbs = new RuleBasedEngine();
-
         Vector factsSet = new Vector();
         Iterator it = objects.iterator();
 
         while (it.hasNext()) {
             Object o = it.next();
+           // System.out.println("object o type: " + o.getClass());
             rbsg.addRules(o, o.getClass(), factsSet, getFactTemplates());
         }
 
@@ -169,13 +216,12 @@ public class ConsistencyChecker {
         }
 
         rbs.printDatabase(facts);
-
         for (int i = 0; i < rules.size(); i++) {
             Rule r = (Rule) rules.get(i);
 
             String res = "all";
             Hashtable rez = rbs.checkRule(r.getexpression(), res.equals(r.getresult()));
-
+            //System.out.println( rez == null);
             if (rez != null) {
                 Iterator solutionIterator = rez.keySet().iterator();
                 while (solutionIterator.hasNext()) {
@@ -184,6 +230,8 @@ public class ConsistencyChecker {
                     messageTypes.add(r.getSeverity());
                     messages.put(r.getSeverity(), r.getName());
                     messages.put(r.getName(), r.getMessage((Hashtable) rez.get(solutionName)));
+                    System.out.println("r.getName: " + r.getName());
+                    System.out.println("r.getMessage: " + r.getMessage((Hashtable) rez.get(solutionName)));
 
                     if (r.getName().equals(executeRule) || "*".equals(executeRule)) {
                         if (r.executeAction((Hashtable) rez.get(solutionName))) {

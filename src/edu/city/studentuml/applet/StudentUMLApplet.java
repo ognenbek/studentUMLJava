@@ -21,10 +21,12 @@ public class StudentUMLApplet extends JApplet {
     private String apiURL = null;
 
     public static StudentUMLApplet getInstance() {
+        System.out.println("StudentUMLApplet constructor");
         return instance;
     }
 
     public void init() {
+        System.out.println("StudentUMLApplet constructor");
         super.init();
         initializeApplet();
         instance = this;

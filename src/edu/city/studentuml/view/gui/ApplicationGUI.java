@@ -77,7 +77,7 @@ public abstract class ApplicationGUI extends JPanel implements KeyListener, Obse
     protected static boolean isApplet = false;
     protected StudentUMLFrame frame = null;
     protected StudentUMLApplet applet = null;
-    protected boolean repairMode = false;
+    protected boolean repairMode = true;
     protected UMLProject umlProject = null;
     protected CentralRepository centralRepository;
     protected String simpleRulesFile;
@@ -590,7 +590,7 @@ public abstract class ApplicationGUI extends JPanel implements KeyListener, Obse
         //scrollPane_f = new JScrollPane();
         //scrollPane_f.setViewportView(factsTree);
 
-        tabbedPane.addTab("Problems", null, panel, null);
+        tabbedPane.addTab("Problems1", null, panel, null);
         //tabbedPane.addTab("Rule Editor", null, new RuleEditor(currentRuleFile), null);
         //tabbedPane.addTab("Facts", null, scrollPane_f, null);
     }
@@ -735,13 +735,13 @@ public abstract class ApplicationGUI extends JPanel implements KeyListener, Obse
 
                 SystemWideObjectNamePool.getInstance().setSelectedRule(null);
                 checkTreeManager.getSelectionModel().clearSelection();
-                repairButton.setEnabled(false);
+                repairButton.setEnabled(true);
             }
         });
 
         repairPanel.add(repairButton);
-        repairButton.setEnabled(false);
-        repairPanel.setVisible(false);
+        repairButton.setEnabled(true);
+        repairPanel.setVisible(true);
         showRepairButton(messageTree, repairButton);
 
         setRepairMode(true);	// Sets on/off the REPAIR feature
@@ -784,11 +784,13 @@ public abstract class ApplicationGUI extends JPanel implements KeyListener, Obse
             CollectionTreeModel facts = SystemWideObjectNamePool.getInstance().getFacts();
 
             String messTreeState = null;
+            System.out.println("eror message show - update");
 
             if ((messageTree.getModel() != null) && (messageTree.getModel() instanceof CollectionTreeModel)) {
                 messTreeState = getExpansionState(messageTree, 0);
                 checkTreeManager.getSelectionModel().clearSelection();
-                repairButton.setEnabled(false);
+                repairButton.setEnabled(true);
+                System.out.println("update1: " + messTreeState);
             }
 
             if (messageTree != null) {
@@ -800,8 +802,9 @@ public abstract class ApplicationGUI extends JPanel implements KeyListener, Obse
                 if (repairPanel != null && messages != null && messages.size() > 0 && isRepairMode()) {
                     repairPanel.setVisible(true);
                 } else if (repairPanel != null && messages != null && messages.size() == 0) {
-                    repairPanel.setVisible(false);
+                    repairPanel.setVisible(true);
                 }
+                System.out.println("update2: " + messTreeState);
             }
 
             if (factsTree != null) {
@@ -836,6 +839,7 @@ public abstract class ApplicationGUI extends JPanel implements KeyListener, Obse
             model.addObserver(this);
             addInternalFrame(model);
         } else if (type == DiagramModel.CCD) {
+            System.out.println("new CCD");
             String modelName = JOptionPane.showInputDialog("Conceptual Class Diagram Name: ");
             CCDModel model = new CCDModel(modelName, umlProject);
             model.addObserver(this);
@@ -1520,7 +1524,6 @@ public abstract class ApplicationGUI extends JPanel implements KeyListener, Obse
                 }
             });
             add(resizeButton);
-
             ImageIcon validateSD_DCDIcon = new ImageIcon(this.getClass().getResource(Constants.IMAGES_DIR  + "sd_dcd.gif"));
             validateSD_DCDButton = new JButton(validateSD_DCDIcon);
             validateSD_DCDButton.setToolTipText("Validate SD against DCD");

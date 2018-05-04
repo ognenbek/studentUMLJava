@@ -123,9 +123,10 @@ public class Application extends JApplet implements Observer, KeyListener {
     private String parentid = null;
     private String diagramno = null;
     private String apiURL = null;
-    private boolean repairMode = false;
+    private boolean repairMode = true;
 
     public static Application getInstance() {
+        System.out.println("getInstance");
         return instance;
     }
 
@@ -133,6 +134,7 @@ public class Application extends JApplet implements Observer, KeyListener {
     // which handles the rest of the program
     // Firefox: when a fresh browser is opened
     public void init() {
+        System.out.println("Init");
         addKeyListener(this);
         super.init();
         // because applet is a SINGLETON
@@ -331,7 +333,7 @@ public class Application extends JApplet implements Observer, KeyListener {
 
                 SystemWideObjectNamePool.getInstance().setSelectedRule(null);
                 checkTreeManager.getSelectionModel().clearSelection();
-                repairButton.setEnabled(false);
+                repairButton.setEnabled(true);
             }
         });
 
@@ -340,11 +342,11 @@ public class Application extends JApplet implements Observer, KeyListener {
         repairButton.setName("Repair selected");
         repairButton.setText(" Repair selected");
         repairPanel.add(repairButton);
-        repairButton.setEnabled(false);
-        repairPanel.setVisible(false);
+        repairButton.setEnabled(true);
+        repairPanel.setVisible(true);
         showRepairButton(messageTree, repairButton);
 
-        setRepairMode(false);	// Sets on/off the REPAIR feature
+        setRepairMode(true);	// Sets on/off the REPAIR feature
 
         setVisible(true);
 
@@ -430,7 +432,7 @@ public class Application extends JApplet implements Observer, KeyListener {
             checkTreeManager.getSelectionModel().clearSelection();
             messageTree.setModel(null); //
             factsTree.setModel(null); //
-            repairButton.setEnabled(false);
+            repairButton.setEnabled(true);
 
             Node nodeTypeNode = doc.getElementsByTagName("nodetype").item(0);
             String nodeType = nodeTypeNode.getTextContent().trim();
@@ -782,7 +784,7 @@ public class Application extends JApplet implements Observer, KeyListener {
     public void update(Observable observable, Object object) {
         setSaveMenuActionEnabled(!umlProject.isSaved());
         toolbar.setSaveActionEnabled(!umlProject.isSaved());
-
+        System.out.println("Update of new eror message");
         if (object != null && object instanceof SystemWideObjectNamePool) {
             CollectionTreeModel messages = SystemWideObjectNamePool.getInstance().getMessages();
             CollectionTreeModel facts = SystemWideObjectNamePool.getInstance().getFacts();
@@ -792,7 +794,7 @@ public class Application extends JApplet implements Observer, KeyListener {
             if ((messageTree.getModel() != null) && (messageTree.getModel() instanceof CollectionTreeModel)) {
                 messTreeState = getExpansionState(messageTree, 0);
                 checkTreeManager.getSelectionModel().clearSelection();
-                repairButton.setEnabled(false);
+                repairButton.setEnabled(true);
             }
 
             if (messageTree != null) {
@@ -844,6 +846,7 @@ public class Application extends JApplet implements Observer, KeyListener {
     }
 
     public void addInternalFrame(DiagramModel model) {
+        
         addInternalFrame(model, null);
     }
 
@@ -1402,7 +1405,7 @@ public class Application extends JApplet implements Observer, KeyListener {
                 checkTreeManager.getSelectionModel().clearSelection();
                 messageTree.setModel(null); //
                 factsTree.setModel(null); //
-                repairButton.setEnabled(false);
+                repairButton.setEnabled(true);
 
                 // Get the actual solution node
                 Node solutionFileIDNode = doc.getElementsByTagName("solutionfileid").item(0);

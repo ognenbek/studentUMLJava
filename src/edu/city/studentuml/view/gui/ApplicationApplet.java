@@ -71,7 +71,7 @@ public class ApplicationApplet extends ApplicationGUI {
             checkTreeManager.getSelectionModel().clearSelection();
             messageTree.setModel(null); //
             factsTree.setModel(null); //
-            repairButton.setEnabled(false);
+            repairButton.setEnabled(true);
 
             Node nodeTypeNode = doc.getElementsByTagName("nodetype").item(0);
             String nodeType = nodeTypeNode.getTextContent().trim();
@@ -301,7 +301,7 @@ public class ApplicationApplet extends ApplicationGUI {
                 checkTreeManager.getSelectionModel().clearSelection();
                 messageTree.setModel(null); //
                 factsTree.setModel(null); //
-                repairButton.setEnabled(false);
+                repairButton.setEnabled(true);
 
                 // Get the actual solution node
                 Node solutionFileIDNode = doc.getElementsByTagName("solutionfileid").item(0);

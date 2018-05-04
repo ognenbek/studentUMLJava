@@ -28,7 +28,7 @@ public class CCDModel extends DiagramModel {
         if (element instanceof ConceptualClassGR) {
             addClass((ConceptualClassGR) element);
         } else if (element instanceof AssociationGR) {
-            addAssociation((AssociationGR) element);
+            addAssociation((AssociationGR) element);    
         } else if (element instanceof UMLNoteGR) {
             super.addGraphicalElement(element);
         } else if (element instanceof AssociationClassGR) {
@@ -43,6 +43,7 @@ public class CCDModel extends DiagramModel {
     public void addClass(ConceptualClassGR c) {
 
         // add the class to the project repository first and then to the diagram
+        System.out.println("class added");
         repository.addConceptualClass(c.getConceptualClass());
         super.addGraphicalElement(c);
     }

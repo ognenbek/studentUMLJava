@@ -80,6 +80,8 @@ public class CCDSelectionController extends SelectionController {
     }
 
     // Editing the selected graphical element if it is a class
+    
+    //Ognen: here the class changes are made, attributes and new name of class
     public void editClass(ConceptualClassGR classGR) {
         CentralRepository repository = model.getCentralRepository();
         ConceptualClassEditor classEditor = new ConceptualClassEditor(classGR, repository);
@@ -127,6 +129,8 @@ public class CCDSelectionController extends SelectionController {
         // set observable model to changed in order to notify its views
         model.modelChanged();
         SystemWideObjectNamePool.getInstance().reload();
+        System.out.println(originalClass.getName());
+        System.out.println(newClass.getName());
     }
 
     // Editing the selected graphical element if it is an association

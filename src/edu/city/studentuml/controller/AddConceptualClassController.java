@@ -24,8 +24,8 @@ public class AddConceptualClassController extends AddElementController {
     }
 
     public void pressed(int x, int y) {
+        System.out.println("conceptual class creation in AddConceptualClassController");
         ConceptualClassGR graphicalClass = new ConceptualClassGR(new ConceptualClass(""), new Point(x, y));
-
         UndoableEdit edit = new AddEdit(graphicalClass, diagramModel);
 
         diagramModel.addGraphicalElement(graphicalClass);

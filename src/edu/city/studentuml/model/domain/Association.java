@@ -28,6 +28,7 @@ public class Association implements Serializable, IXMLCustomStreamable {
     // Its direction is always from role A to role B
     public Association(Classifier classA, Classifier classB) {
         this(new Role(classA), new Role(classB));
+        java.lang.System.out.println("(Association) class A:" + classA.getName()+", class type: " + classA.getClass());
     }
 
     public Association(Role rA, Role rB) {

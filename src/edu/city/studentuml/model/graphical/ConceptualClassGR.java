@@ -14,6 +14,7 @@ public class ConceptualClassGR extends AbstractClassGR {
 
     public ConceptualClassGR(ConceptualClass c, Point start) {
         super(c, start);
+        System.out.println("Class created in ConceptualClassGR");
     }
 
     public void setConceptualClass(ConceptualClass cl) {

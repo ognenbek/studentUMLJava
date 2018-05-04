@@ -274,6 +274,7 @@ public class CentralRepository extends Observable implements Serializable {
 
     //methods for manipulating the list of conceptual classes
     public boolean addConceptualClass(ConceptualClass c) {
+        java.lang.System.out.println("add conceptual class CentralRepository");
         ConceptualClass existingClass = getConceptualClass(c.getName());
 
         if ((existingClass == null) || c.getName().equals("")) {
